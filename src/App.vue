@@ -1,20 +1,28 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <a-layout>
+
+    <TheHeader />
+
+    <router-view />
+
+    <TheFooter />
+
+  </a-layout>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import TheHeader from '@/components/TheHeader.vue';
+import TheFooter from '@/components/TheFooter.vue';
+import {defineComponent} from "vue";
 
+export default defineComponent({
+  components: {TheFooter, TheHeader}
+})
+
+
+</script>
+
+<style>
 nav {
   padding: 30px;
 }
