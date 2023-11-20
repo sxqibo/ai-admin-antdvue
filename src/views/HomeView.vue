@@ -60,9 +60,30 @@
       <a-layout-content
           :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
       >
-<pre>
-{{ ebooks }}
-</pre>
+        <a-list item-layout="vertical" :pagination="pagination"  :grid="{ gutter: 16, column: 3 }" :data-source="ebooks">
+
+          <template #renderItem="{ item }">
+            <a-list-item key="item.title">
+              <!--图标-->
+              <template #actions>
+                <span v-for="{ icon, text } in actions" :key="icon">
+                  <component :is="icon" style="margin-right: 8px"/>
+                  {{ text }}
+                </span>
+              </template>
+              <!--主内容-->
+              <a-list-item-meta :description="item.description">
+                <template #title>
+                  {{ item.name }}
+                </template>
+                <template #avatar>
+                  <a-avatar :src="item.cover"/>
+                </template>
+              </a-list-item-meta>
+            </a-list-item>
+          </template>
+        </a-list>
+
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -73,11 +94,12 @@
 <script lang="ts" setup>
 import axios from 'axios'
 import {ref} from 'vue'
+import {StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons-vue';
 
 const ebooks = ref([])
 
-console.log('setup')
-axios.get('http://localhost:8888/api/ebook/list?name=Spring&description=JAVA')
+// ajax获取
+axios.get('http://localhost:8888/api/ebook/list')
     .then(res => {
       console.log(res)
       ebooks.value = res.data.content
@@ -85,4 +107,30 @@ axios.get('http://localhost:8888/api/ebook/list?name=Spring&description=JAVA')
     .catch(err => {
       console.log(err)
     })
+
+// 分页
+const pagination = {
+  onChange: (page: number) => {
+    console.log(page);
+  },
+  pageSize: 6,
+};
+
+// 图标
+const actions: Record<string, any>[] = [
+  {icon: StarOutlined, text: '156'},
+  {icon: LikeOutlined, text: '156'},
+  {icon: MessageOutlined, text: '2'},
+];
 </script>
+
+
+<style scoped>
+.ant-avatar {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 8%;
+  margin: 5px 0;
+}
+</style>
