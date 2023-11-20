@@ -1,6 +1,7 @@
 <template>
 
   <a-layout>
+    <!--左侧-->
     <a-layout-sider width="200" style="background: #fff">
       <a-menu
           mode="inline"
@@ -9,7 +10,7 @@
         <a-sub-menu key="sub1">
           <template #title>
               <span>
-                <user-outlined />
+                <user-outlined/>
                 subnav 1
               </span>
           </template>
@@ -21,7 +22,7 @@
         <a-sub-menu key="sub2">
           <template #title>
               <span>
-                <laptop-outlined />
+                <laptop-outlined/>
                 subnav 2
               </span>
           </template>
@@ -33,7 +34,7 @@
         <a-sub-menu key="sub3">
           <template #title>
               <span>
-                <notification-outlined />
+                <notification-outlined/>
                 subnav 3
               </span>
           </template>
@@ -44,16 +45,24 @@
         </a-sub-menu>
       </a-menu>
     </a-layout-sider>
+
+    <!--右侧-->
     <a-layout style="padding: 0 24px 24px">
+
+      <!--面包屑-->
       <a-breadcrumb style="margin: 16px 0">
         <a-breadcrumb-item>Home</a-breadcrumb-item>
         <a-breadcrumb-item>List</a-breadcrumb-item>
         <a-breadcrumb-item>App</a-breadcrumb-item>
       </a-breadcrumb>
+
+      <!--内容-->
       <a-layout-content
           :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
       >
-        Content
+<pre>
+{{ ebooks }}
+</pre>
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -61,21 +70,19 @@
 </template>
 
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
 import axios from 'axios'
+import {ref} from 'vue'
 
-export default defineComponent({
-  name: 'HomeView',
-  setup() {
-    console.log('setup')
-    axios.get('http://localhost:8888/api/ebook/list?name=Spring&description=JAVA')
-     .then(res => {
-        console.log(res)
-      })
-     .catch(err => {
-        console.log(err)
-      })
-  },
-});
+const ebooks = ref([])
+
+console.log('setup')
+axios.get('http://localhost:8888/api/ebook/list?name=Spring&description=JAVA')
+    .then(res => {
+      console.log(res)
+      ebooks.value = res.data.content
+    })
+    .catch(err => {
+      console.log(err)
+    })
 </script>

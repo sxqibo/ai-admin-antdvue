@@ -10,14 +10,9 @@
   </a-layout>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import TheHeader from '@/components/TheHeader.vue';
 import TheFooter from '@/components/TheFooter.vue';
-import {defineComponent} from "vue";
-
-export default defineComponent({
-  components: {TheFooter, TheHeader}
-})
 </script>
 
 <style>
