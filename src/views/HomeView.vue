@@ -99,7 +99,7 @@ import {StarOutlined, LikeOutlined, MessageOutlined} from '@ant-design/icons-vue
 const ebooks = ref([])
 
 // ajax获取
-axios.get(process.env.VUE_APP_SERVER + '/api/ebook/list')
+axios.get('/api/ebook/list')
     .then(res => {
       console.log(res)
       ebooks.value = res.data.content
