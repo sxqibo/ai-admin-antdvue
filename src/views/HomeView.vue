@@ -101,7 +101,6 @@ const ebooks = ref([])
 // ajax获取
 axios.get('/api/ebook/list')
     .then(res => {
-      console.log(res)
       ebooks.value = res.data.content
     })
     .catch(err => {
