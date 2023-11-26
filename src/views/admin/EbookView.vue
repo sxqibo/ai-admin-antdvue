@@ -19,7 +19,7 @@
           <template  v-else-if="column.key === 'action'">
             <a-space size="small">
               <a-space size="small">
-                <a-button type="primary">
+                <a-button type="primary" @click="showModal">
                   编辑
                 </a-button>
                 <a-button type="primary" danger>
@@ -34,6 +34,14 @@
       </a-table>
     </a-layout-content>
   </a-layout>
+
+  <a-modal
+      v-model:open="open"
+      title="Title"
+      :confirm-loading="confirmLoading"
+      @ok="handleOk">
+    <p>{{ modalText }}</p>
+  </a-modal>
 </template>
 
 <script setup lang="ts">
@@ -46,16 +54,17 @@ import axios from 'axios';
 /**
  * 2、定义部分
  */
+// 列表
 const ebooks = ref();
+// 分页
 const pagination = ref({
   current: 1,
   pageSize: 4,
   total: 0
 });
+// 加载
 const loading = ref(false);
-
-
-// 列表
+// 列数据
 const columns = [
   {
     name: '封面',
@@ -92,7 +101,11 @@ const columns = [
     key: 'action',
     fixed: 'right',
   },
-];
+]
+// 编辑表单
+const modalText = ref<string>('Content of the modal');
+const open = ref<boolean>(false);
+const confirmLoading = ref<boolean>(false);
 
 /**
  * 3、逻辑部分
@@ -136,6 +149,24 @@ const handleTableChange = (pagination: any) => {
   });
 };
 
+/**
+ * 编辑-显示模态框
+ */
+const showModal = () => {
+  open.value = true;
+};
+
+/**
+ * 表单
+ */
+const handleOk = () => {
+  modalText.value = 'The modal will be closed after two seconds';
+  confirmLoading.value = true;
+  setTimeout(() => {
+    open.value = false;
+    confirmLoading.value = false;
+  }, 2000);
+};
 </script>
 
 <style scoped>
